@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - flask_network
+
+  web:
+    build: .
+    container_name: flask_app
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "5000:5000"
+    networks:
+      - flask_network
+
+networks:
+  flask_network:
+
+volumes:
+  mongo_data:
